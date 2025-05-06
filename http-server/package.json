@@ -1,0 +1,12 @@
+{
+  "name": "http-server",
+  "version": "1.0.0",
+  "description": "Simple HTTP server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
+}
