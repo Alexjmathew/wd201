@@ -1,37 +1,54 @@
-const http = require('http');
-const fs = require('fs').promises;
-const path = require('path');
-const minimist = require('minimist');
+const http = require("http");
+const fs = require("fs");
+const args = require('minimist')(process.argv.slice(2));
 
-// Parse command line arguments
-const args = minimist(process.argv.slice(2));
-const port = args.port || 3000; // Default to 3000 if no port is specified
+let homeContent = "";
+let projectContent = "";
+let registrationContent = "";
 
-const server = http.createServer(async (req, res) => {
-    try {
-        if (req.url === '/' || req.url === '/home.html') {
-            const data = await fs.readFile(path.join(__dirname, 'home.html'));
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.write(data);
-        } else if (req.url === '/project.html') {
-            const data = await fs.readFile(path.join(__dirname, 'project.html'));
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.write(data);
-        } else if (req.url === '/registration.html') {
-            const data = await fs.readFile(path.join(__dirname, 'registration.html'));
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.write(data);
-        } else {
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.write('404 Not Found');
-        }
-    } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.write('Internal Server Error');
-    }
-    res.end();
+fs.readFile("home.html", (err, home) => {
+  if (err) {
+    throw err;
+  }
+  homeContent = home;
 });
 
-server.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
+fs.readFile("project.html", (err, project) => {
+  if (err) {
+    throw err;
+  }
+  projectContent = project;
+});
+
+fs.readFile("registration.html", (err, registration) => {
+  if (err) {
+    throw err;
+  }
+  registrationContent = registration;
+});
+
+fs.readFile("home.html", (err, home) => {
+  if (err) {
+    throw err;
+  }
+  http
+  .createServer((request, response) => {
+    let url = request.url;
+    response.writeHeader(200, { "Content-Type": "text/html" });
+    switch (url) {
+      case "/project":
+        response.write(projectContent);
+        response.end();
+        break;
+      case "/registration":
+        response.write(registrationContent);
+        response.end();
+        break;
+      default:
+        response.write(homeContent);
+        response.end();
+        break;
+    }
+  })
+  .listen(args.port);
 });
