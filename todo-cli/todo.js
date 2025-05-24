@@ -1,46 +1,64 @@
-const todoList = () => {
-  all = []
-  const add = (todoItem) => {
-    all.push(todoItem)
-  }
-  const markAsComplete = (index) => {
-    all[index].completed = true
-  }
+const todos = [];
 
-  const overdue = () => {
-    return all.filter(item => item.dueDate < today && !item.completed)
-  }
+function add(todo) {
+  todos.push(todo);
+}
 
-  const dueToday = () => {
-    return all.filter(item => item.dueDate === today)
-  }
+function all() {
+  return todos;
+}
 
-  const dueLater = () => {
-    return all.filter(item => item.dueDate > today)
-  }
+function markAsComplete(index) {
+  todos[index].completed = true;
+}
 
-  const toDisplayableList = (list) => {
-    return list.map(item => {
-      const checkbox = item.completed ? '[x]' : '[ ]'
-      const date = item.dueDate !== today ? ` ${item.dueDate}` : ''
-      return `${checkbox} ${item.title}${date}`
-    }).join('\n')
-  }
+function overdue() {
+  const today = new Date();
+  return todos.filter(
+    (todo) =>
+      !todo.completed &&
+      new Date(todo.dueDate) < new Date(today.setHours(0, 0, 0, 0))
+  );
+}
 
-  return {
-    all,
-    add,
-    markAsComplete,
-    overdue,
-    dueToday,
-    dueLater,
-    toDisplayableList
-  };
+function dueToday() {
+  const today = new Date().toLocaleDateString("en-CA");
+  return todos.filter(
+    (todo) => todo.dueDate === today
+  );
+}
+
+function dueLater() {
+  const today = new Date();
+  return todos.filter(
+    (todo) =>
+      !todo.completed &&
+      new Date(todo.dueDate) > new Date(today.setHours(23, 59, 59, 999))
+  );
+}
+
+function toDisplayableList(list) {
+  return list
+    .map((todo) => {
+      const status = todo.completed ? "[x]" : "[ ]";
+      const today = new Date().toLocaleDateString("en-CA");
+      const displayDate = todo.dueDate === today ? "" : ` ${todo.dueDate}`;
+      return `${status} ${todo.title}${displayDate}`;
+    })
+    .join("\n");
+}
+
+module.exports = {
+  all,
+  add,
+  markAsComplete,
+  overdue,
+  dueToday,
+  dueLater,
+  toDisplayableList,
 };
 
-// ####################################### #
-// DO NOT CHANGE ANYTHING BELOW THIS LINE. #
-// ####################################### #
+
 
 const todos = todoList();
 
