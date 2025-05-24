@@ -1,16 +1,21 @@
 {
-  "name": "wd201",
-  "version": "1.0.0",
-  "description": "",
-  "main": "todo.js",
-  "scripts": {
-    "test": "jest",
-    "prepare": "husky install"
+  "dependencies": {
+    "jest": "^29.0.2",
+    "minimist": "^1.2.6",
+    "mysql2": "^2.3.3",
+    "pg": "^8.8.0",
+    "sequelize": "^6.21.4"
   },
-  "author": "Vineeth",
+  "scripts": {
+    "test": "jest --detectOpenHandles"
+  },
+  "name": "milestone",
+  "version": "1.0.0",
+  "main": "addTodo.js",
+  "author": "",
   "license": "ISC",
+  "description": "",
   "devDependencies": {
-    "husky": "^8.0.1",
-    "jest": "^29.0.3"
+    "sequelize-cli": "^6.5.1"
   }
 }
