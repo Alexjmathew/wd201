@@ -12,18 +12,53 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static addTodo({ title, dueDate }) {
-      return this.create({ title: title, dueDate: dueDate, completed: false });
+      // Validation
+      if (!title || title.trim() === '') {
+        throw new Error('Title cannot be empty');
+      }
+      if (!dueDate) {
+        throw new Error('Due date cannot be empty');
+      }
+      
+      return this.create({ 
+        title: title.trim(), 
+        dueDate: dueDate, 
+        completed: false 
+      });
     }
 
     markAsCompleted() {
       return this.update({ completed: true });
     }
+
+    setCompletionStatus(status) {
+      return this.update({ completed: status });
+    }
   }
   Todo.init(
     {
-      title: DataTypes.STRING,
-      dueDate: DataTypes.DATEONLY,
-      completed: DataTypes.BOOLEAN,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: "Title cannot be empty"
+          }
+        }
+      },
+      dueDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: "Due date cannot be empty"
+          }
+        }
+      },
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
     },
     {
       sequelize,
