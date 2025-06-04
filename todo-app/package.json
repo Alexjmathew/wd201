@@ -1,0 +1,38 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:prod": "node index.js",
+    "start": "nodemon -e js,ejs",
+    "pretest": "cross-env NODE_ENV=test npx sequelize-cli db:drop && cross-env NODE_ENV=test npx sequelize-cli db:create",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+    "prepare": "husky install"
+  },
+  "author": "Meghana",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
+    "csurf": "^1.10.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.2.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.x.x",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "husky": "^9.1.6",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0"
+  }
+}
