@@ -71,9 +71,13 @@ app.post("/todos", async function (request, response) {
       return response.status(422).json({ error: "Due date cannot be empty" });
     }
 
+    // Convert the input date to en-CA format for consistency
+    const inputDate = new Date(request.body.dueDate);
+    const formattedDate = inputDate.toLocaleDateString("en-CA");
+
     const todo = await Todo.addTodo({
       title: request.body.title.trim(),
-      dueDate: request.body.dueDate
+      dueDate: formattedDate
     });
     
     if (request.get('Content-Type') && request.get('Content-Type').includes('application/x-www-form-urlencoded')) {
