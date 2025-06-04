@@ -61,17 +61,20 @@ app.post("/todos", async function (request, response) {
       if (request.get('Content-Type') && request.get('Content-Type').includes('application/x-www-form-urlencoded')) {
         return response.redirect("/");
       }
-      return response.status(400).json({ error: "Title cannot be empty" });
+      return response.status(422).json({ error: "Title cannot be empty" });
     }
     
-    if (!request.body.dueDate) {
+    if (!request.body.dueDate || request.body.dueDate.trim() === '') {
       if (request.get('Content-Type') && request.get('Content-Type').includes('application/x-www-form-urlencoded')) {
         return response.redirect("/");
       }
-      return response.status(400).json({ error: "Due date cannot be empty" });
+      return response.status(422).json({ error: "Due date cannot be empty" });
     }
 
-    const todo = await Todo.addTodo(request.body);
+    const todo = await Todo.addTodo({
+      title: request.body.title.trim(),
+      dueDate: request.body.dueDate
+    });
     
     if (request.get('Content-Type') && request.get('Content-Type').includes('application/x-www-form-urlencoded')) {
       return response.redirect("/");
