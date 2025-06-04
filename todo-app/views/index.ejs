@@ -3,18 +3,27 @@
 <head>
     <meta charset="utf-8">
     <title>Todo Manager</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <%- include('header') %>
-    
-    <form action="/todos" method="post">
-        <input type="text" name="title" placeholder="What's next?" required>
-        <input type="date" name="dueDate" required>
-        <input type="submit" value="Add">
-    </form>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8">This is my Todo Application</h1>
+        
+        <div class="max-w-md mx-auto mb-8">
+            <form action="/todos" method="post" class="flex gap-2">
+                <input type="text" name="title" placeholder="What's next?" required 
+                       class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="date" name="dueDate" required 
+                       class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="submit" value="Add" 
+                       class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer">
+            </form>
+        </div>
 
-    <%- include('todos') %>
+        <%- include('todos') %>
 
-    <%- include('footer') %>
+        <%- include('footer') %>
+    </div>
 </body>
 </html>
