@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: todo-app
-    runtime: node
-    buildCommand: npm install
-    startCommand: npm start
-    env: node
