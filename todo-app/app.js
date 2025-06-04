@@ -31,7 +31,12 @@ app.get("/", async (request, response) => {
       csrfToken: request.csrfToken(),
     });
   } else {
-    response.json(overdue, dueLater, dueToday, completedItems);
+    response.json({
+      overdue,
+      dueLater,
+      dueToday,
+      completedItems
+    });
   }
 });
 
@@ -46,6 +51,7 @@ app.get("/todos", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
 app.get("/todos/:id", async function (request, response) {
   try {
     const todo = await Todo.findByPk(request.params.id);
@@ -59,6 +65,9 @@ app.get("/todos/:id", async function (request, response) {
 app.post("/todos", async (request, response) => {
   console.log("creating new todo", request.body);
   try {
+    if (!request.body.title || !request.body.dueDate) {
+      return response.status(422).json({ error: "Title and due date are required" });
+    }
     // eslint-disable-next-line no-unused-vars
     await Todo.addTodo({
       title: request.body.title,
@@ -71,6 +80,7 @@ app.post("/todos", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
 //PUT https://mytodoapp.com/todos/123/markAscomplete
 app.put("/todos/:id", async (request, response) => {
   console.log("Mark Todo as completed:", request.params.id);
@@ -83,6 +93,7 @@ app.put("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
 app.delete("/todos/:id", async (request, response) => {
   console.log("delete a todo with ID:", request.params.id);
   try {
@@ -92,4 +103,5 @@ app.delete("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
 module.exports = app;
