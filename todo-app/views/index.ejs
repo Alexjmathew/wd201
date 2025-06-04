@@ -13,33 +13,7 @@
         <input type="submit" value="Add">
     </form>
 
-    <% if (allTodos.length > 0) { %>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Due Date</th>
-                <th>Completed</th>
-                <th>Actions</th>
-            </tr>
-            <% allTodos.forEach(function(todo) { %>
-                <tr>
-                    <td><%= todo.id %></td>
-                    <td><%= todo.title %></td>
-                    <td><%= todo.dueDate %></td>
-                    <td><%= todo.completed %></td>
-                    <td>
-                        <form action="/todos/<%= todo.id %>/toggle" method="post" style="display: inline;">
-                            <input type="submit" value="<%= todo.completed ? 'Mark Incomplete' : 'Mark Complete' %>">
-                        </form>
-                        <form action="/todos/<%= todo.id %>/delete" method="post" style="display: inline;">
-                            <input type="submit" value="Delete">
-                        </form>
-                    </td>
-                </tr>
-            <% }); %>
-        </table>
-    <% } %>
+    <%- include('todos') %>
 
     <%- include('footer') %>
 </body>
