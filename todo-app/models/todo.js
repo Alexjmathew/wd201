@@ -12,16 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static addTodo({ title, dueDate }) {
-      // Validation
-      if (!title || title.trim() === '') {
-        throw new Error('Title cannot be empty');
-      }
-      if (!dueDate) {
-        throw new Error('Due date cannot be empty');
-      }
-      
       return this.create({ 
-        title: title.trim(), 
+        title: title, 
         dueDate: dueDate, 
         completed: false 
       });
