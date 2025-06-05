@@ -29,7 +29,12 @@ app.get("/", async (request, response) => {
       csrfToken: request.csrfToken(),
     });
   } else {
-    response.json(overdue, dueLater, dueToday, completedItems);
+    response.json({
+      overdue,
+      dueLater, 
+      dueToday,
+      completedItems
+    });
   }
 });
 
@@ -56,8 +61,17 @@ app.get("/todos/:id", async function (request, response) {
 
 app.post("/todos", async (request, response) => {
   console.log("creating new todo", request.body);
+  
+  // Validation for empty title and dueDate
+  if (!request.body.title || request.body.title.trim() === "") {
+    return response.status(422).json({ error: "Title cannot be empty" });
+  }
+  
+  if (!request.body.dueDate) {
+    return response.status(422).json({ error: "Due date cannot be empty" });
+  }
+  
   try {
-    // eslint-disable-next-line no-unused-vars
     await Todo.addTodo({
       title: request.body.title,
       dueDate: request.body.dueDate,
@@ -69,7 +83,7 @@ app.post("/todos", async (request, response) => {
     return response.status(422).json(error);
   }
 });
-//PUT https://mytodoapp.com/todos/123/markAscomplete
+
 app.put("/todos/:id", async (request, response) => {
   console.log("Mark Todo as completed:", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
@@ -81,6 +95,7 @@ app.put("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
 app.delete("/todos/:id", async (request, response) => {
   console.log("delete a todo with ID:", request.params.id);
   try {
@@ -90,4 +105,5 @@ app.delete("/todos/:id", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
 module.exports = app;
