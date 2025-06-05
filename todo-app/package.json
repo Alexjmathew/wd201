@@ -8,9 +8,9 @@
     "start": "nodemon -e js,ejs",
     "pretest": "cross-env NODE_ENV=test npx sequelize-cli db:drop && cross-env NODE_ENV=test npx sequelize-cli db:create",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
-    "prepare": "husky install"
+    "prepare": "node -e \"try { require('husky').install() } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e }\""
   },
-  "author": "Meghana",
+  "author": "Alex",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
